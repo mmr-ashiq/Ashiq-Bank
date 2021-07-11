@@ -50,7 +50,7 @@ const depositButton = document.getElementById('deposit__button');
 depositButton.addEventListener('click', function () {
 	const depositAmount = document.getElementById('deposit__amount').value;
 
-	if (isNaN(depositAmount) || depositAmount.length == 0) {
+	if (isNaN(depositAmount) || depositAmount.length == 0 || depositAmount < 0) {
 		alert('Enter Valid Amount');
 	} else {
 		const depositAmountInNumber = parseFloat(depositAmount);
@@ -80,19 +80,23 @@ withdrawButton.addEventListener('click', function () {
 	if (isNaN(givenWithdrawInNumber) || givenWithdrawInNumber.length == 0) {
 		alert('Enter Valid Amount');
 	} else {
-				// update Balance section for withdraw
+		// update Balance section for withdraw
 		let currentBalance = updateSpanText(
 			'current__balance',
 			-1 * givenWithdrawInNumber
 		);
 
 		if (currentBalance < 10) {
-			alert(`You can't Withdraw money any more. your current balance is ` + currentBalance);
+			alert(
+				`You can't Withdraw money any more. your current balance is ` +
+					currentBalance
+			);
+			document.getElementById('withdraw__amount').value = '';
 			document.getElementById('withdraw__button').disabled = true;
 			document.getElementById('withdraw__amount').disabled = true;
 
 			return false;
-		}else{
+		} else {
 			updateSpanText('current__withdraw', givenWithdrawInNumber);
 		}
 
