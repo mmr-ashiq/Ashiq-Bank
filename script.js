@@ -8,7 +8,7 @@
 // });
 
 // login validation
-var attempt = 3; // Variable to count number of attempts.
+// var attempt = 3; // Variable to count number of attempts.
 // Below function Executes on click of login button.
 function validate() {
 	var username = document.getElementById('username').value;
@@ -16,14 +16,19 @@ function validate() {
 	if (username == 'a' && password == 'a') {
 		// alert('Login successfully');
 		// window.location = 'transaction.html'; // Redirecting to other page.
+
 		const loginArea = document.getElementById('login__area');
 		loginArea.style.display = 'none';
+		swal({
+			title: "Login successfully!",
+			icon: "success",
+		  });
 		const transactionArea = document.getElementById('transaction__area');
 		transactionArea.style.display = 'block';
-
+		
 		return false;
 	} else {
-		attempt--; // Decrementing by one.
+		/* attempt--; // Decrementing by one.
 
 		if (attempt >= 1) {
 			alert('You have left ' + attempt + ' attempt;');
@@ -37,7 +42,13 @@ function validate() {
 			document.getElementById('submit').disabled = true;
 
 			return false;
-		}
+		} */
+
+		swal({
+			title: "username or password is incorrect",
+			text:"Try Again",
+			icon: "error",
+		  });
 	}
 }
 
@@ -51,7 +62,10 @@ depositButton.addEventListener('click', function () {
 	const depositAmount = document.getElementById('deposit__amount').value;
 
 	if (isNaN(depositAmount) || depositAmount.length == 0 || depositAmount < 0) {
-		alert('Enter Valid Amount');
+		swal({
+			title: "Enter Valid Amount",
+			icon: "info",
+		  });
 	} else {
 		const depositAmountInNumber = parseFloat(depositAmount);
 
@@ -78,7 +92,10 @@ withdrawButton.addEventListener('click', function () {
 	const givenWithdrawInNumber = getInputNumber('withdraw__amount');
 
 	if (isNaN(givenWithdrawInNumber) || givenWithdrawInNumber.length == 0) {
-		alert('Enter Valid Amount');
+		swal({
+			title: "Enter Valid Amount",
+			icon: "info",
+		  });
 	} else {
 		// update Balance section for withdraw
 		let currentBalance = updateSpanText(
@@ -86,18 +103,20 @@ withdrawButton.addEventListener('click', function () {
 			-1 * givenWithdrawInNumber
 		);
 
-		if (currentBalance < 10) {
-			alert(
-				`You can't Withdraw money any more. your current balance is ` +
-					currentBalance
-			);
+		console.log(currentBalance)
+
+		if (currentBalance > 10 ) {
+			// alert(
+			// 	`You can't Withdraw money any more. your current balance is ` +
+			// 		currentBalance
+			// );
+			
+			udateSpanText('current__withdraw', givenWithdrawInNumber);
+			// return;
+		} else {
 			document.getElementById('withdraw__amount').value = '';
 			document.getElementById('withdraw__button').disabled = true;
 			document.getElementById('withdraw__amount').disabled = true;
-
-			return false;
-		} else {
-			updateSpanText('current__withdraw', givenWithdrawInNumber);
 		}
 
 		document.getElementById('withdraw__amount').value = '';
